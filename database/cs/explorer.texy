@@ -129,10 +129,13 @@ Selection správně zpracovává i záporné podmínky a umí pracovat také s p
 ```php
 $table->where('id', []);       // id IS NULL AND FALSE
 $table->where('id NOT', []);   // id IS NULL OR TRUE
-$table->where('NOT (id ?)', $ids);  // NOT (id IS NULL AND FALSE)
+$table->where('NOT (id ?)', []);  // NOT (id IS NULL AND FALSE)
 
 // toto způsobí výjimku, tato syntax není podporovaná
-$table->where('NOT id ?', $ids);
+$table->where('NOT id ?', []);
+
+// naproti tomu tato syntaxe záporné podmínky na neprázdném poli podporovaná je
+$table->where('NOT id ?', [1,2,3]);  // NOT id IN (1, 2, 3)
 ```
 
 
